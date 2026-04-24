@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "user_id": "demo_user",
+    "task": "Fix ImportError trong Jupyter Notebook",
+    "trajectory": "User gặp ImportError với numpy trong notebook. Thử pip install từ terminal không được. Phát hiện notebook dùng kernel khác với Python system.",
+    "outcome": "Fix được bằng cách chạy !pip install numpy trực tiếp trong notebook cell để đảm bảo install đúng kernel.",
+    "reflection": "Jupyter Notebook có thể dùng kernel Python khác với system Python. Luôn cài package trực tiếp trong notebook cell hoặc kiểm tra kernel path.",
+    "timestamp": "2024-01-10T10:00:00",
+    "importance_score": 1.0
+  },
+  {
+    "id": 2,
+    "user_id": "demo_user",
+    "task": "Debug RuntimeError shape mismatch trong PyTorch",
+    "trajectory": "User bị RuntimeError: mat1 and mat2 shapes cannot be multiplied. Kiểm tra từng layer bằng cách print shape.",
+    "outcome": "Lỗi ở chỗ thiếu Flatten() trước Linear layer đầu tiên. Thêm nn.Flatten() vào Sequential đã fix.",
+    "reflection": "Luôn print tensor.shape sau mỗi layer khi debug neural network. Flatten layer thường bị quên khi chuyển từ Conv sang Linear.",
+    "timestamp": "2024-01-11T14:00:00",
+    "importance_score": 1.0
+  },
+  {
+    "id": 3,
+    "user_id": "demo_user",
+    "task": "Optimize Pandas DataFrame processing bị chậm với 1M rows",
+    "trajectory": "User dùng iterrows() để apply function lên từng row, xử lý 1M rows mất 5 phút. Thử nghiệm vectorized operations và apply().",
+    "outcome": "Chuyển sang df['col'].apply() và vectorized operations giảm thời gian từ 5 phút còn 3 giây (100x faster).",
+    "reflection": "Tuyệt đối tránh iterrows() với large DataFrame. Ưu tiên: vectorized ops > apply() > itertuples() > iterrows(). Pandas được tối ưu cho vectorized operations.",
+    "timestamp": "2024-01-12T09:00:00",
+    "importance_score": 0.9
+  }
+]

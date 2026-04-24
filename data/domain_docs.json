@@ -1,0 +1,107 @@
+[
+  {
+    "id": "doc_001",
+    "title": "Python List Comprehension",
+    "category": "python_basics",
+    "source": "domain",
+    "content": "List comprehension là cú pháp ngắn gọn để tạo list trong Python. Cú pháp: [expression for item in iterable if condition]. Ví dụ: squares = [x**2 for x in range(10)] tạo list bình phương từ 0-9. Nhanh hơn vòng lặp for thông thường khoảng 35%. Có thể lồng nhau: [x*y for x in range(3) for y in range(3)]."
+  },
+  {
+    "id": "doc_002",
+    "title": "Python Dictionary Comprehension",
+    "category": "python_basics",
+    "source": "domain",
+    "content": "Dictionary comprehension tạo dict từ iterable. Cú pháp: {key: value for item in iterable if condition}. Ví dụ: {x: x**2 for x in range(5)} tạo {0:0, 1:1, 2:4, 3:9, 4:16}. Hữu ích để transform hoặc filter dict hiện có. Set comprehension tương tự: {x**2 for x in range(10)}."
+  },
+  {
+    "id": "doc_003",
+    "title": "Python async/await cơ bản",
+    "category": "python_advanced",
+    "source": "domain",
+    "content": "async/await là cơ chế xử lý bất đồng bộ trong Python 3.5+. async def định nghĩa coroutine function. await chờ một coroutine hoàn thành mà không block event loop. asyncio.run() khởi chạy event loop từ synchronous code. Phù hợp cho I/O-bound tasks: HTTP requests, database queries, file I/O. Không phù hợp CPU-bound tasks (dùng multiprocessing thay thế)."
+  },
+  {
+    "id": "doc_004",
+    "title": "asyncio.gather() và concurrent tasks",
+    "category": "python_advanced",
+    "source": "domain",
+    "content": "asyncio.gather() chạy nhiều coroutines đồng thời trong event loop. Ví dụ: results = await asyncio.gather(fetch_url(url1), fetch_url(url2), fetch_url(url3)). Trả về list kết quả theo thứ tự input. Dùng return_exceptions=True để tiếp tục dù có coroutine lỗi. Khác với asyncio.wait() cho phép kiểm soát chi tiết hơn."
+  },
+  {
+    "id": "doc_005",
+    "title": "ModuleNotFoundError - Cách debug và fix",
+    "category": "python_errors",
+    "source": "domain",
+    "content": "ModuleNotFoundError xảy ra khi Python không tìm thấy module được import. Các bước fix: 1) pip install <module_name>. 2) Với conda environment: conda install <module_name>. 3) Kiểm tra đúng virtual environment: which python hoặc conda env list. 4) Trong Jupyter Notebook: dùng !pip install <module> trong cell. 5) Kiểm tra typo trong tên module. Lỗi thường gặp: cài vào Python system thay vì venv."
+  },
+  {
+    "id": "doc_006",
+    "title": "Virtual Environment Python - conda và venv",
+    "category": "python_tools",
+    "source": "domain",
+    "content": "Virtual environment cô lập dependencies cho từng project. Dùng venv: python -m venv venv, activate: source venv/bin/activate (Linux/Mac), venv\\Scripts\\activate (Windows). Dùng conda: conda create -n myenv python=3.10, activate: conda activate myenv. Luôn activate env trước khi pip install. pip freeze > requirements.txt để lưu dependencies."
+  },
+  {
+    "id": "doc_007",
+    "title": "Overfitting trong Machine Learning",
+    "category": "ml_concepts",
+    "source": "domain",
+    "content": "Overfitting xảy ra khi model học quá kỹ training data (bao gồm cả noise) nên kém khả năng tổng quát hóa. Dấu hiệu: training accuracy cao nhưng validation/test accuracy thấp, learning curves phân kỳ. Nguyên nhân: model quá phức tạp, ít training data, train quá nhiều epochs. Phòng tránh: regularization (L1/L2), dropout, early stopping, cross-validation, data augmentation, thu thập thêm data."
+  },
+  {
+    "id": "doc_008",
+    "title": "L1 và L2 Regularization",
+    "category": "ml_concepts",
+    "source": "domain",
+    "content": "L1 Regularization (Lasso): thêm lambda * sum(|w|) vào loss function. Tạo sparse model (nhiều weight = 0), hữu ích cho feature selection. L2 Regularization (Ridge): thêm lambda * sum(w²) vào loss function. Shrink tất cả weights đều nhau, ít sparsity hơn. Elastic Net kết hợp cả L1 và L2. Trong scikit-learn: LogisticRegression(penalty='l2', C=1.0). C = 1/lambda, C nhỏ = regularization mạnh hơn."
+  },
+  {
+    "id": "doc_009",
+    "title": "Dropout Layer trong Deep Learning",
+    "category": "deep_learning",
+    "source": "domain",
+    "content": "Dropout randomly disable (set = 0) một tỷ lệ p neurons trong layer khi training. Mục đích: chống overfitting bằng cách buộc network học nhiều independent representations. Chỉ active khi training mode, disable khi eval/inference mode. Tỷ lệ thông thường: 0.2-0.5. PyTorch: nn.Dropout(p=0.5). Keras/TF: Dropout(0.5). Thường đặt sau Fully Connected layers."
+  },
+  {
+    "id": "doc_010",
+    "title": "Attention Mechanism trong Transformer",
+    "category": "deep_learning",
+    "source": "domain",
+    "content": "Attention mechanism cho phép model tập trung vào phần quan trọng nhất của input khi xử lý mỗi token. Self-attention: mỗi token attend tới tất cả tokens trong sequence. Multi-head attention: chạy attention h lần song song với projections khác nhau. Công thức: Attention(Q,K,V) = softmax(QK^T / sqrt(d_k)) * V. Q=Query, K=Key, V=Value. Foundation của BERT, GPT, T5, LLaMA."
+  },
+  {
+    "id": "doc_011",
+    "title": "Pandas DataFrame - Thao tác cơ bản",
+    "category": "python_tools",
+    "source": "domain",
+    "content": "Pandas xử lý data dạng bảng. Tạo: pd.DataFrame({'col1': [1,2,3], 'col2': ['a','b','c']}). Đọc: pd.read_csv('file.csv'). Chọn cột: df['col'] hoặc df[['col1','col2']]. Lọc: df[df['age'] > 25]. Groupby: df.groupby('city')['salary'].mean(). Apply: df['col'].apply(lambda x: x*2). Merge: pd.merge(df1, df2, on='id', how='left'). Tránh dùng iterrows() với large DataFrame."
+  },
+  {
+    "id": "doc_012",
+    "title": "Scikit-learn Pipeline",
+    "category": "ml_tools",
+    "source": "domain",
+    "content": "Pipeline của scikit-learn kết hợp preprocessing steps và model thành một workflow hoàn chỉnh. Tránh data leakage giữa train và test. Ví dụ: pipe = Pipeline([('scaler', StandardScaler()), ('pca', PCA(n_components=10)), ('clf', RandomForestClassifier())]). pipe.fit(X_train, y_train). pipe.predict(X_test). Dùng được với cross_val_score và GridSearchCV."
+  },
+  {
+    "id": "doc_013",
+    "title": "Cross-validation và Model Evaluation",
+    "category": "ml_concepts",
+    "source": "domain",
+    "content": "Cross-validation chia data thành k folds để đánh giá model khách quan. K-Fold CV: cross_val_score(model, X, y, cv=5, scoring='accuracy'). StratifiedKFold giữ nguyên tỷ lệ class trong mỗi fold. Dùng cho imbalanced datasets. Metrics quan trọng: accuracy, precision, recall, F1-score, AUC-ROC (dùng classification_report). Chỉ dùng test set một lần duy nhất ở cuối."
+  },
+  {
+    "id": "doc_014",
+    "title": "CUDA Out of Memory - Debug và fix",
+    "category": "deep_learning",
+    "source": "domain",
+    "content": "CUDA OOM (Out of Memory) xảy ra khi GPU VRAM không đủ. Cách fix theo thứ tự: 1) Giảm batch_size (thử batch_size // 2). 2) Bật mixed precision: scaler = GradScaler(), with autocast(). 3) Gradient checkpointing: model.gradient_checkpointing_enable(). 4) Xóa cache: torch.cuda.empty_cache(). 5) Gradient accumulation: accumulate N steps trước khi update. 6) LoRA/QLoRA để fine-tune model lớn với ít VRAM."
+  },
+  {
+    "id": "doc_015",
+    "title": "HuggingFace Transformers - Getting Started",
+    "category": "ml_tools",
+    "source": "domain",
+    "content": "HuggingFace Transformers cung cấp 200k+ pre-trained models. Cài: pip install transformers datasets. Pipeline API đơn giản nhất: from transformers import pipeline. clf = pipeline('text-classification'). result = clf('I love NLP!'). Fine-tuning với Trainer API: TrainingArguments để config, Trainer để train. AutoTokenizer và AutoModel để load any model từ Hub. Tokenizer luôn phải đi kèm model."
+  }
+]

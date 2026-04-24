@@ -1,0 +1,190 @@
+[
+  {
+    "id": 1,
+    "name": "Profile Write & Name Recall",
+    "category": "profile_recall",
+    "description": "User tự giới thiệu tên và thông tin. Sau 5 turns, kiểm tra agent có nhớ tên không.",
+    "memory_type_tested": "long_term",
+    "turns": [
+      {"role": "user", "content": "Xin chào! Tôi tên là Minh, tôi đang học năm 3 đại học CNTT tại VinUniversity."},
+      {"role": "user", "content": "Tôi đang tự học Machine Learning và Python được khoảng 1 năm rồi."},
+      {"role": "user", "content": "Ngôn ngữ tôi thích nhất là Python. Tôi không thích Java vì cú pháp quá verbose."},
+      {"role": "user", "content": "Bạn có thể giải thích ngắn gọn list comprehension trong Python không?"},
+      {"role": "user", "content": "Còn dictionary comprehension thì khác gì so với list comprehension?"},
+      {"role": "user", "content": "Bạn có nhớ tên tôi là gì và tôi đang học gì không?"}
+    ],
+    "recall_turn_index": 5,
+    "recall_question": "Bạn có nhớ tên tôi là gì và tôi đang học gì không?",
+    "expected_key": "Minh",
+    "expected_detail": "Machine Learning, Python, VinUniversity"
+  },
+  {
+    "id": 2,
+    "name": "Language Preference Recall",
+    "category": "profile_recall",
+    "description": "User khai báo preference ngôn ngữ. Agent phải suggest đúng language khi được hỏi.",
+    "memory_type_tested": "long_term",
+    "turns": [
+      {"role": "user", "content": "Tôi chỉ muốn code bằng Python cho mọi dự án của mình, không dùng ngôn ngữ nào khác."},
+      {"role": "user", "content": "Tôi đặc biệt không thích Java và C++ vì quá phức tạp với tôi."},
+      {"role": "user", "content": "Level của tôi là beginner, tôi mới học lập trình được 6 tháng."},
+      {"role": "user", "content": "Tôi muốn xây dựng một web scraper đơn giản. Bạn có thể hướng dẫn không?"},
+      {"role": "user", "content": "Khi tôi hỏi về một bài toán lập trình, bạn nên gợi ý tôi dùng ngôn ngữ nào và ở level nào?"}
+    ],
+    "recall_turn_index": 4,
+    "recall_question": "Khi tôi hỏi về một bài toán lập trình, bạn nên gợi ý tôi dùng ngôn ngữ nào và ở level nào?",
+    "expected_key": "Python",
+    "expected_detail": "beginner level, Python only"
+  },
+  {
+    "id": 3,
+    "name": "Conflict Update - Allergy (Required Rubric Test)",
+    "category": "conflict_update",
+    "description": "User sửa thông tin dị ứng. Expected: recency wins, profile cập nhật đúng.",
+    "memory_type_tested": "long_term_conflict",
+    "turns": [
+      {"role": "user", "content": "Thông tin về tôi: Tôi bị dị ứng sữa bò, nên tôi không uống sữa bò."},
+      {"role": "user", "content": "Vì vậy tôi thường uống sữa đậu nành thay thế."},
+      {"role": "user", "content": "À nhầm rồi! Thực ra tôi dị ứng đậu nành chứ không phải sữa bò. Xin lỗi vì thông tin sai trước đó."},
+      {"role": "user", "content": "Vậy tôi không được uống gì? Bạn có nhớ tôi dị ứng thứ gì không?"}
+    ],
+    "recall_turn_index": 3,
+    "recall_question": "Tôi dị ứng thứ gì vậy?",
+    "expected_key": "đậu nành",
+    "expected_detail": "allergy = đậu nành (NOT sữa bò)",
+    "conflict_test": true,
+    "wrong_answer": "sữa bò"
+  },
+  {
+    "id": 4,
+    "name": "Conflict Update - Skill Level",
+    "category": "conflict_update",
+    "description": "User cập nhật skill level từ beginner lên intermediate. Agent phải điều chỉnh explanation depth.",
+    "memory_type_tested": "long_term_conflict",
+    "turns": [
+      {"role": "user", "content": "Tôi là beginner Python, mới học 3 tháng, xin giải thích đơn giản thôi nhé."},
+      {"role": "user", "content": "Bạn có thể giải thích decorator trong Python không?"},
+      {"role": "user", "content": "Thực ra tôi nhầm, tôi đã học Python được 2 năm rồi, coi tôi là intermediate/advanced nhé. Giải thích chuyên sâu hơn được không?"},
+      {"role": "user", "content": "Bây giờ bạn xem level Python của tôi là gì? Và hãy giải thích metaclass theo level đó."}
+    ],
+    "recall_turn_index": 3,
+    "recall_question": "Level Python của tôi là gì?",
+    "expected_key": "intermediate",
+    "expected_detail": "intermediate hoặc advanced (NOT beginner)",
+    "conflict_test": true,
+    "wrong_answer": "beginner"
+  },
+  {
+    "id": 5,
+    "name": "Episodic Write - Debug Task",
+    "category": "episodic_write",
+    "description": "User debug lỗi ModuleNotFoundError pandas trong conda. Episode được log sau khi fix.",
+    "memory_type_tested": "episodic",
+    "turns": [
+      {"role": "user", "content": "Tôi đang bị lỗi này: ModuleNotFoundError: No module named 'pandas'. Tôi dùng Anaconda."},
+      {"role": "user", "content": "Tôi đã thử pip install pandas rồi nhưng vẫn bị lỗi."},
+      {"role": "user", "content": "Môi trường của tôi là conda environment tên là 'ml_project'."},
+      {"role": "user", "content": "Ồ tôi hiểu rồi! Dùng 'conda install pandas' trong conda environment đã fix được. Cảm ơn bạn!"},
+      {"role": "user", "content": "Vậy bài học rút ra từ lần debug này là gì?"}
+    ],
+    "recall_turn_index": 4,
+    "recall_question": "Bài học rút ra từ việc fix lỗi này?",
+    "expected_key": "conda install",
+    "expected_detail": "conda environment cần dùng conda install thay vì pip install"
+  },
+  {
+    "id": 6,
+    "name": "Episodic Recall - Similar Debug Task",
+    "category": "episodic_recall",
+    "description": "User gặp lỗi tương tự (numpy thay vì pandas). Agent phải recall cách fix cũ từ episode.",
+    "memory_type_tested": "episodic",
+    "turns": [
+      {"role": "user", "content": "Tôi lại bị lỗi ModuleNotFoundError nữa rồi, lần này là: No module named 'numpy'."},
+      {"role": "user", "content": "Lần trước tôi đã fix lỗi ModuleNotFoundError như thế nào? Bạn có nhớ không?"},
+      {"role": "user", "content": "Đúng rồi! conda install numpy đã fix được. Cảm ơn vì đã nhớ cách fix cũ!"},
+      {"role": "user", "content": "Tại sao pip install không work trong conda environment?"}
+    ],
+    "recall_turn_index": 1,
+    "recall_question": "Lần trước tôi đã fix lỗi ModuleNotFoundError như thế nào?",
+    "expected_key": "conda install",
+    "expected_detail": "Agent nhớ lại cách fix từ Conv 5: dùng conda install"
+  },
+  {
+    "id": 7,
+    "name": "Semantic Retrieval - Python async/await",
+    "category": "semantic_retrieval",
+    "description": "Test semantic retrieval với câu hỏi về async/await. Agent phải lấy knowledge từ vector DB.",
+    "memory_type_tested": "semantic",
+    "turns": [
+      {"role": "user", "content": "async/await trong Python hoạt động như thế nào? Tôi thấy khó hiểu quá."},
+      {"role": "user", "content": "Sự khác biệt giữa async def và def thông thường là gì?"},
+      {"role": "user", "content": "asyncio.gather() dùng để làm gì? Có ví dụ không?"},
+      {"role": "user", "content": "Khi nào nên dùng asyncio thay vì threading hoặc multiprocessing?"}
+    ],
+    "recall_turn_index": 0,
+    "recall_question": "async/await trong Python hoạt động như thế nào?",
+    "expected_key": "asyncio",
+    "expected_detail": "coroutine, event loop, I/O-bound tasks"
+  },
+  {
+    "id": 8,
+    "name": "Semantic Retrieval - ML Overfitting & Regularization",
+    "category": "semantic_retrieval",
+    "description": "Test semantic retrieval với câu hỏi về ML concepts. Agent phải dùng domain knowledge.",
+    "memory_type_tested": "semantic",
+    "turns": [
+      {"role": "user", "content": "Overfitting trong Machine Learning là gì? Làm sao phát hiện?"},
+      {"role": "user", "content": "Làm sao để tránh overfitting khi train model?"},
+      {"role": "user", "content": "L1 và L2 regularization khác nhau thế nào? Khi nào dùng cái nào?"},
+      {"role": "user", "content": "Dropout layer trong neural network có tác dụng gì để chống overfitting?"}
+    ],
+    "recall_turn_index": 0,
+    "recall_question": "Overfitting là gì và cách phòng tránh?",
+    "expected_key": "overfitting",
+    "expected_detail": "training vs validation accuracy, regularization, dropout, early stopping"
+  },
+  {
+    "id": 9,
+    "name": "Token Budget Trim Test",
+    "category": "short_term_trim",
+    "description": "Long conversation (12 turns) để test auto-trim context window. Agent không được crash.",
+    "memory_type_tested": "short_term_trim",
+    "turns": [
+      {"role": "user", "content": "Tôi muốn học về machine learning từ đầu. Bắt đầu từ đâu?"},
+      {"role": "user", "content": "Supervised learning là gì? Cho ví dụ thực tế."},
+      {"role": "user", "content": "Unsupervised learning khác gì supervised learning?"},
+      {"role": "user", "content": "Decision Tree hoạt động thế nào?"},
+      {"role": "user", "content": "Random Forest cải thiện Decision Tree như thế nào?"},
+      {"role": "user", "content": "Gradient Boosting là gì? Khác gì Random Forest?"},
+      {"role": "user", "content": "Neural Network cơ bản gồm những thành phần nào?"},
+      {"role": "user", "content": "Backpropagation hoạt động thế nào?"},
+      {"role": "user", "content": "Activation function có vai trò gì? Sigmoid vs ReLU?"},
+      {"role": "user", "content": "Batch normalization là gì và tại sao dùng?"},
+      {"role": "user", "content": "Convolutional Neural Network dùng cho bài toán gì?"},
+      {"role": "user", "content": "Dựa trên toàn bộ cuộc trò chuyện, bạn vẫn nhớ tôi hỏi gì đầu tiên không?"}
+    ],
+    "recall_turn_index": 11,
+    "recall_question": "Câu hỏi đầu tiên của tôi là gì?",
+    "expected_key": "machine learning từ đầu",
+    "expected_detail": "Test trim: agent vẫn trả lời được dù context bị trim"
+  },
+  {
+    "id": 10,
+    "name": "Full Stack Integration - All Memory Types",
+    "category": "full_stack",
+    "description": "Test tất cả 4 memory types trong 1 conversation. Kết hợp profile + episodic + semantic.",
+    "memory_type_tested": "all",
+    "turns": [
+      {"role": "user", "content": "Xin chào, tôi tên là An, đang làm project NLP tại công ty startup AI."},
+      {"role": "user", "content": "Tôi thích dùng HuggingFace Transformers cho mọi NLP task."},
+      {"role": "user", "content": "Tôi đang bị lỗi CUDA out of memory khi fine-tune BERT model. Batch size tôi đang dùng là 32."},
+      {"role": "user", "content": "Attention mechanism trong Transformer là gì? Tôi muốn hiểu sâu về kiến trúc."},
+      {"role": "user", "content": "Tôi đã giảm batch size xuống 8 và bật mixed precision, đã fix được lỗi CUDA OOM!"},
+      {"role": "user", "content": "Dựa trên những gì bạn biết về tôi (tên, project, preference, lỗi đã fix), hãy tổng kết và gợi ý bước tiếp theo cho tôi."}
+    ],
+    "recall_turn_index": 5,
+    "recall_question": "Tóm tắt thông tin bạn biết về tôi và gợi ý bước tiếp theo.",
+    "expected_key": "An",
+    "expected_detail": "Kết hợp: tên An, NLP project, HuggingFace preference, CUDA OOM fix, attention mechanism knowledge"
+  }
+]
