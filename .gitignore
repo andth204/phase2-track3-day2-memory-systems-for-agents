@@ -26,8 +26,6 @@ env/
 *.swo
 .DS_Store
 
-# Runtime data (generated files)
-data/episodes.json
 
 # ChromaDB cache
 .chroma/
